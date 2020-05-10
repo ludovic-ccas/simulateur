@@ -7,6 +7,7 @@ function importTask(slug) {
 }
 
 module.exports = [
+  importTask('ajouter-votre-institution'),
   importTask('ajouter-une-aide'),
   importTask('cibler-associations'),
   importTask('cibler-elus'),

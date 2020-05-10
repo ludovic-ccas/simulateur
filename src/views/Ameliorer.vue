@@ -1,5 +1,6 @@
 <template>
   <article class="text container">
+    <pre>{{partenaires}}</pre>
 
     <h1>Contribuer à Mes Aides</h1>
 
@@ -63,19 +64,17 @@
 </template>
 
 <script>
+import Partenaire from '../lib/Partenaire'
 import _ from 'lodash'
 
 export default {
   name: 'experimentations',
   data: () => {
-    return {}
-  },
-  computed: {
-    raw: function() { return this.$store.state.experimentations.results },
-    showExperiment: function() { return this.raw && _.some(this.raw, provider => _.size(provider.prestations)) },
-  },
-  mounted: function () {
-    this.$store.dispatch('getExperimentations')
+    const partenaires = Partenaire.all
+    return {
+      partenaires,
+      showExperiment: _.some(partenaires, provider => _.size(provider.prestations))
+    }
   }
 }
 </script>

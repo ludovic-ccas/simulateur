@@ -317,9 +317,6 @@ const store = new Vuex.Store({
               .then(xp => {
                 _.forEach(xp, (provider) => {
                   _.forEach(provider.prestations, (benefit, bid) => {
-                    if (!state.state.situation.menage.depcom.startsWith(benefit.geographic_sector)) {
-                      return
-                    }
                     results.droitsEligibles.unshift({
                       ...benefit,
                       id: bid,
