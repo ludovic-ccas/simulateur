@@ -1,6 +1,5 @@
 var _ = require('lodash');
 var moment = require('moment');
-var droitsDescription = require('../../../app/js/constants/benefits/');
 var determineCustomizationId = require('./customization');
 
 /**
@@ -38,6 +37,7 @@ function round(amount, aide) {
 }
 
 function computeAides(situation, openfiscaResponse, showPrivate) {
+
     var period = moment(situation.dateDeValeur).format('YYYY-MM');
     var customizationId = determineCustomizationId(openfiscaResponse, period);
     var computedRessources = normalizeOpenfiscaRessources(openfiscaResponse);
@@ -50,7 +50,7 @@ function computeAides(situation, openfiscaResponse, showPrivate) {
 
     var individus = _.filter([].concat(situation.demandeur, situation.conjoint, ...(situation.enfants || [])))
 
-    forEach((aide, aideId, aidesProvider, aidesProviderId) => {
+    this.forEach((aide, aideId, aidesProvider, aidesProviderId) => {
         if ((! showPrivate) && aide.private) {
             return;
         }
@@ -91,25 +91,6 @@ function computeAides(situation, openfiscaResponse, showPrivate) {
     return result;
 }
 
-/**
- * This function iterates over the nested benefits, and executes a callback.
- * The callback is called with 4 parameters:
- * - benefit: the benefit object
- * - benefitId: the benefit id
- * - provider: the benefit provider id
- * - providerId: the benefit provider id
- */
-function forEach(cb) {
-    _.mapValues(droitsDescription, function(aidesProviders, aidesProviderLevel) {
-        _.mapValues(aidesProviders, function(aidesProvider, aidesProviderId) {
-            _.forEach(aidesProvider.prestations, function(aide, aideId) {
-                cb(aide, aideId, aidesProvider, aidesProviderId, aidesProviderLevel);
-            });
-        });
-    });
-}
-
 exports.computeAides = computeAides;
 exports.round = round;
-exports.forEach = forEach;
 exports.datesGenerator = require('./dates').generator;
